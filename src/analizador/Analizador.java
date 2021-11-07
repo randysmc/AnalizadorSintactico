@@ -192,12 +192,12 @@ public class Analizador {
 
                         //llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
                         verificarPalabraReservada(lexema);
-                        if(esPalabraReservada == true){
+                        if (esPalabraReservada == true) {
                             contadorPalabraReservada++;
                             llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, contadorPalabraReservada);
-                        }else{
+                        } else {
                             contadorId++;
-                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId );
+                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
                         }
                         /*if ((lexema.equalsIgnoreCase("ESCRIBIR"))) {
                             contadorPalabraReservada++;
@@ -349,29 +349,23 @@ public class Analizador {
     public void verificarPalabraReservada(String lexema) {
         if (lexema.equalsIgnoreCase("ESCRIBIR")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("FIN")) {
+        } else if (lexema.equalsIgnoreCase("FIN")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("REPETIR")) {
+        } else if (lexema.equalsIgnoreCase("REPETIR")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("INICIAR")) {
+        } else if (lexema.equalsIgnoreCase("INICIAR")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("SI")) {
+        } else if (lexema.equalsIgnoreCase("SI")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("VERDADERO")) {
+        } else if (lexema.equalsIgnoreCase("VERDADERO")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("FALSO")) {
+        } else if (lexema.equalsIgnoreCase("FALSO")) {
             esPalabraReservada = true;
-        }
-        else if (lexema.equalsIgnoreCase("ENTONCES")) {
+        } else if (lexema.equalsIgnoreCase("ENTONCES")) {
             esPalabraReservada = true;
-        }
-        else{
+        } else if (lexema.equalsIgnoreCase("ENTONCES")) {
+            esPalabraReservada = true;
+        } else {
             esPalabraReservada = false;
         }
 
