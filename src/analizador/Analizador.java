@@ -19,6 +19,7 @@ public class Analizador {
     ArrayList<Lexema> arregloErrores;
     Lexema lex;
     int contadorId, contadorEnteros, contadorLit, contadorCom, contadorSigEspe, contadorSimb, contadorPalabraReservada;
+    boolean esPalabraReservada;
 
     public void iniciarAnalizador(String palabraEntrada) {
         inicializarVariables();
@@ -40,7 +41,8 @@ public class Analizador {
         contadorCom = 0;
         contadorSigEspe = 0;
         contadorSimb = 0;
-        contadorPalabraReservada=0;
+        contadorPalabraReservada = 0;
+        esPalabraReservada = false;
 
     }
 
@@ -183,19 +185,27 @@ public class Analizador {
                         lexema += letra;
                         estado = 4;
 
-                    } else if ((Character.isSpaceChar(letra)) || (letra =='\n') ){
+                    } else if ((Character.isSpaceChar(letra)) || (letra == '\n')) {
                         System.out.println("Lexema encontrado");
                         //lexema += letra;
                         System.out.println(lexema);
-                        
+
                         //llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
-                        if((lexema.equalsIgnoreCase("ESCRIBIR")) ){
+                        verificarPalabraReservada(lexema);
+                        if(esPalabraReservada == true){
                             contadorPalabraReservada++;
                             llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, contadorPalabraReservada);
                         }else{
                             contadorId++;
-                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
+                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId );
                         }
+                        /*if ((lexema.equalsIgnoreCase("ESCRIBIR"))) {
+                            contadorPalabraReservada++;
+                            llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, contadorPalabraReservada);
+                        } else {
+                            contadorId++;
+                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
+                        }*/
                         indice--;
                         lexema = "";
                         estado = 0;
@@ -335,14 +345,36 @@ public class Analizador {
         arregloErrores.add(lex);
 
     }
-    
-    public void verificarPalabraReservada(String lexema, ArrayList arreglo){
-        if(lexema.equalsIgnoreCase("ESCRIBIR")){
-            System.out.println("Palabra Reservada");
-            
-            
+
+    public void verificarPalabraReservada(String lexema) {
+        if (lexema.equalsIgnoreCase("ESCRIBIR")) {
+            esPalabraReservada = true;
         }
-        
+        else if (lexema.equalsIgnoreCase("FIN")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("REPETIR")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("INICIAR")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("SI")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("VERDADERO")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("FALSO")) {
+            esPalabraReservada = true;
+        }
+        else if (lexema.equalsIgnoreCase("ENTONCES")) {
+            esPalabraReservada = true;
+        }
+        else{
+            esPalabraReservada = false;
+        }
+
     }
 
     public ArrayList<Lexema> getArregloLexemas() {
@@ -408,7 +440,5 @@ public class Analizador {
     public void setContadorSimb(int contadorSimb) {
         this.contadorSimb = contadorSimb;
     }
-
-
 
 }
