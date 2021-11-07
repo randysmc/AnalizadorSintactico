@@ -363,10 +363,11 @@ public class Analizador {
             esPalabraReservada = true;
         } else if (lexema.equalsIgnoreCase("ENTONCES")) {
             esPalabraReservada = true;
-        } else if (lexema.equalsIgnoreCase("ENTONCES")) {
+        } else if (lexema.equalsIgnoreCase("ENTONCESNO")) {
             esPalabraReservada = true;
         } else {
             esPalabraReservada = false;
+            //estas son solo lineas de comentarios
         }
 
     }
