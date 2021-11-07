@@ -92,7 +92,7 @@ public class Analizador {
                         lexema = "" + letra;
                         estado = 4;
                         //si es letra
-                    } else if (letra == '\n') {
+                    } else if ((letra == '\n')||(letra == '\t')) {
                         System.out.println("Vino caracter especial: '" + letra + "', me muevo al estado 7");
                         lexema = "" + letra;
                         estado = 5;
@@ -278,7 +278,7 @@ public class Analizador {
                 //si viene un caracter distinto a un digito es un error
                 case 8:
                     System.out.println("Lexema encontrado");
-                    lexema += letra;
+                    //lexema += letra;
                     System.out.println(lexema);
                     contadorCom++;
                     llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
