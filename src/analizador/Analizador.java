@@ -64,6 +64,7 @@ public class Analizador {
     }
 
     public void analizarPalabra(String palabraLimpia) {
+        int codigoAscii =39;
 
         for (indice = 0; indice < palabraLimpia.length(); indice++) {
             char letra = palabraLimpia.charAt(indice);
@@ -96,7 +97,7 @@ public class Analizador {
                         System.out.println("Vino caracter especial: '" + letra + "', me muevo al estado 7");
                         lexema = "" + letra;
                         estado = 5;
-                    } else if ((letra == '<') || (letra == '>') || (letra == ':') || (letra == ';') || (letra == '=') || (letra == '+') || (letra == '-')) {
+                    } else if ((letra == '<') || (letra == codigoAscii) || (letra == ':') || (letra == ';') || (letra == '=') || (letra == '+') || (letra == '-')) {
                         System.out.println("simbolo especial");
                         estado = 6;
                     } else {
@@ -153,8 +154,8 @@ public class Analizador {
                 //si viene un punto, se va a otro estado
                 //aqui se puede generar un error
                 case 4:
-
-                    if (letra == '/') {
+                    
+                    if (letra == '/' ) {
                         lexema += letra;
                         System.out.println(lexema);
                         estado = 8;
