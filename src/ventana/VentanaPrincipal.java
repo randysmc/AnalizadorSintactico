@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import ventana.*;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
@@ -33,6 +34,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     ControladorVentana contrVentana;
     //private Object DefaultHighlighter;
     //private Object DefaultHighlighter;
+    VentanaEditor ventanaEdit;
     
 
     public VentanaPrincipal() {
@@ -93,7 +95,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         textArArchivo = new javax.swing.JTextArea();
         btnAnalizar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jbotonAnalisisSinta = new javax.swing.JButton();
         panelReportes = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaReportes = new javax.swing.JTable();
@@ -215,7 +217,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         textArArchivo.setRows(5);
         jScrollPane1.setViewportView(textArArchivo);
 
-        btnAnalizar.setText("Analizar ");
+        btnAnalizar.setText("Analizar Lexemas");
         btnAnalizar.setBorder(new javax.swing.border.MatteBorder(null));
         btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,7 +225,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Analizar Tokens");
+        jbotonAnalisisSinta.setText("Analisis Sintactico");
+        jbotonAnalisisSinta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbotonAnalisisSintaMouseClicked(evt);
+            }
+        });
+        jbotonAnalisisSinta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbotonAnalisisSintaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelArchivoLayout = new javax.swing.GroupLayout(panelArchivo);
         panelArchivo.setLayout(panelArchivoLayout);
@@ -231,22 +243,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelArchivoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelArchivoLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelArchivoLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(panelArchivoLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbotonAnalisisSinta, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
         );
         panelArchivoLayout.setVerticalGroup(
             panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelArchivoLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelArchivoLayout.createSequentialGroup()
+                        .addComponent(jbotonAnalisisSinta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -375,6 +392,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String texto = getTextoArea();
         contrVentana.modificarArchivo(texto);
     }//GEN-LAST:event_btnModificarArchivoActionPerformed
+
+    private void jbotonAnalisisSintaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbotonAnalisisSintaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbotonAnalisisSintaActionPerformed
+
+    private void jbotonAnalisisSintaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbotonAnalisisSintaMouseClicked
+        this.ventana.setVisible(false);
+        ventanaEdit = new VentanaEditor();
+        ventanaEdit.setVisible(true);
+        
+    }//GEN-LAST:event_jbotonAnalisisSintaMouseClicked
     public String getTextoArea() {
         String texto = textArArchivo.getText() + " ";
         return texto;
@@ -469,7 +497,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnMostrarErrores;
     private javax.swing.JButton btnMostrarLexemas;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -478,6 +505,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton jbotonAnalisisSinta;
     private javax.swing.JLabel labelIngresePalabra;
     private javax.swing.JPanel panelArchivo;
     private javax.swing.JPanel panelEncabezado;
