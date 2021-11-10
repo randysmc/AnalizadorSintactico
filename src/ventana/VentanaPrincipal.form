@@ -105,6 +105,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panelEncabezado">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="0" type="rgb"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -343,10 +348,10 @@
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
-                    <Column editable="true" title="Posicion" type="java.lang.Object"/>
+                    <Column editable="true" title="Fila" type="java.lang.Object"/>
                     <Column editable="true" title="Token" type="java.lang.Object"/>
                     <Column editable="true" title="Lexema" type="java.lang.Object"/>
-                    <Column editable="true" title="Contador" type="java.lang.Object"/>
+                    <Column editable="true" title="Apariciones" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

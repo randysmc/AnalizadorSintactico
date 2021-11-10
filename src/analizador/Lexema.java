@@ -15,14 +15,16 @@ public class Lexema {
     String cadenaError;
     String lexema;
     EnumLexema nombreToken;
-    int posicionX;
-    int posicionY;
+    int fila;
+    int columna;
     int cantidadApariciones;
 
-    public Lexema(String lexema, EnumLexema nombreToken, int cantidadApariciones) {
+    public Lexema(String lexema, EnumLexema nombreToken,int fila, int columna/*int cantidadApariciones*/) {
         this.lexema = lexema;
         this.nombreToken = nombreToken;
-        this.cantidadApariciones=cantidadApariciones;
+        this.fila = fila;
+        this.columna = columna;
+        //this.cantidadApariciones=cantidadApariciones;
         //this.posicion = posicion;
     }
 
@@ -55,12 +57,20 @@ public class Lexema {
         this.nombreToken = nombreToken;
     }
 
-    public int getPosicion() {
-        return posicionX;
+    public int getFila() {
+        return fila;
     }
 
-    public void setPosicion(int posicionX) {
-        this.posicionX = posicionX;
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
 
     public int getCantidadApariciones() {
@@ -70,6 +80,8 @@ public class Lexema {
     public void setCantidadApariciones(int cantidadApariciones) {
         this.cantidadApariciones = cantidadApariciones;
     }
+
+
     
     
  

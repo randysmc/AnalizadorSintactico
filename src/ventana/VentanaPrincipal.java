@@ -129,6 +129,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelEncabezado.setForeground(new java.awt.Color(0, 51, 51));
+
         labelIngresePalabra.setText("Ingrese Palabra");
         labelIngresePalabra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -259,7 +261,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Posicion", "Token", "Lexema", "Contador"
+                "Fila", "Token", "Lexema", "Apariciones"
             }
         ));
         jScrollPane4.setViewportView(tablaReportes);

@@ -18,7 +18,7 @@ public class Analizador {
     ArrayList<Lexema> arregloLexemas;
     ArrayList<Lexema> arregloErrores;
     Lexema lex;
-    int contadorId, contadorEnteros, contadorLit, contadorCom, contadorSigEspe, contadorSimb, contadorPalabraReservada;
+    int contadorId, contadorEnteros, contadorLit, contadorCom, contadorSigEspe, contadorSimb, contadorPalabraReservada, fila, columna;
     boolean esPalabraReservada;
 
     public void iniciarAnalizador(String palabraEntrada) {
@@ -43,6 +43,8 @@ public class Analizador {
         contadorSimb = 0;
         contadorPalabraReservada = 0;
         esPalabraReservada = false;
+        fila=1;
+        
 
     }
 
@@ -52,12 +54,12 @@ public class Analizador {
             //almacenamos el caracter de cada indice en letra
             char letra = palabraEntrada.charAt(indice);
 
-            switch (letra) {
+            /*switch (letra) {
 
                 default:
-                    //guardamos nuestra palabra sin caracteres extranos
+                    //guardamos nuestra palabra sin caracteres extranos*/
                     palabraLimpia += letra;
-            }
+           // }
         }
         return palabraLimpia;
 
@@ -68,6 +70,16 @@ public class Analizador {
 
         for (indice = 0; indice < palabraLimpia.length(); indice++) {
             char letra = palabraLimpia.charAt(indice);
+            
+
+            if(Character.isSpaceChar(letra) || letra == '\t'){
+                columna++;
+            }
+            if(letra == '\n'){
+                fila++;
+                columna=0;
+            }
+            
 
             switch (estado) {
                 case 0:
@@ -94,7 +106,7 @@ public class Analizador {
                         estado = 4;
                         //si es letra
                     } else if ((letra == '\n') || (letra == '\t')|| (letra == '\r')) {
-                        System.out.println("Vino caracter especial: '" + letra + "', me muevo al estado 7");
+                        System.out.println("Vino caracter especial: '" + letra + "', me muevo al estado 5");
                         lexema = "" + letra;
                         estado = 5;
                     } else if ((letra == '<') || (letra == codigoAscii) || (letra == ':') || (letra == ';') || (letra == '=') || (letra == '+') || (letra == '-')||
@@ -121,7 +133,7 @@ public class Analizador {
                         //lexema += letra;
                         System.out.println(lexema);
                         contadorEnteros++;
-                        llenarArregloLexema(lexema, EnumLexema.NUMERO_ENTERO, contadorEnteros);
+                        llenarArregloLexema(lexema, EnumLexema.NUMERO_ENTERO,fila, columna);
                         //indice--;
                         lexema = "";
                         estado = 0;
@@ -139,7 +151,7 @@ public class Analizador {
                     }else if(letra == '"'){
                         lexema += letra;
                         contadorLit++;
-                        llenarArregloLexema(lexema, EnumLexema.LITERAL, contadorLit);
+                        llenarArregloLexema(lexema, EnumLexema.LITERAL,fila, columna);
                         System.out.println("tamano del arreglo de literal: " + indice);
                         lexema = "";
                         //indice--;
@@ -162,7 +174,7 @@ public class Analizador {
                         System.out.println("Error Lexico: no vino el caracter que esperabamos ");
                         lexema += letra;
                         llenarArregloErrores(lexema);
-                        indice--;
+                        //indice--;
                         lexema = "";
                         estado = 0;
                     }
@@ -178,7 +190,7 @@ public class Analizador {
                         estado = 8;
                     } else {
                         contadorSimb++;
-                        llenarArregloLexema(lexema, EnumLexema.SIMBOLO, contadorSimb);
+                        llenarArregloLexema(lexema, EnumLexema.SIMBOLO,fila, columna);
                         //indice--;
                         lexema="";
                         estado=0;
@@ -190,7 +202,7 @@ public class Analizador {
 
                     System.out.println("Lexema encontrado: " + lexema);
                     contadorSigEspe++;
-                    llenarArregloLexema(lexema, EnumLexema.CA_ESPECIAL, contadorSigEspe);
+                    llenarArregloLexema(lexema, EnumLexema.CA_ESPECIAL,fila, columna);
                     indice--;
                     lexema = "";
                     estado = 0;
@@ -200,8 +212,8 @@ public class Analizador {
                 case 6:
                     System.out.println("Lexema encontrado: " + lexema);
                     contadorSimb++;
-                    llenarArregloLexema(lexema, EnumLexema.SIMBOLO, contadorSimb);
-                    indice--;
+                    llenarArregloLexema(lexema, EnumLexema.SIMBOLO,fila, columna);
+                    //indice--;
                     lexema = "";
                     estado = 0;
                     break;
@@ -220,17 +232,17 @@ public class Analizador {
 
                         if (esPalabraReservada == true) {
                             contadorPalabraReservada++;
-                            llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, contadorPalabraReservada);
+                            llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, fila, columna);
                         } else {
                             contadorId++;
-                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
+                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, fila, columna);
                         }
                         //indice--;
                         lexema = "";
                         estado = 0;
                     }else{
                         System.out.println("Error encontrado");
-                        indice--;
+                        //indice--;
                         lexema="";
                         estado=0;
                     }
@@ -242,18 +254,11 @@ public class Analizador {
                         lexema += letra;
                     }else{
                         contadorCom++;
-                        llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
+                        llenarArregloLexema(lexema, EnumLexema.COMENTARIO, fila, columna);
                         lexema="";
                         estado=0;
                     }
-                    /*System.out.println("Lexema encontrado");
-                    //lexema += letra;
-                    System.out.println(lexema);
-                    contadorCom++;
-                    llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
-                    indice--;
-                    lexema = "";
-                    estado = 0;*/
+
                     break;
                 default:
                     break;
@@ -263,8 +268,8 @@ public class Analizador {
         }
     }
 
-    public void llenarArregloLexema(String lexema, EnumLexema tipoToken, int apariciones) {
-        lex = new Lexema(lexema, tipoToken, apariciones);
+    public void llenarArregloLexema(String lexema, EnumLexema tipoToken,int fila, int columna) {
+        lex = new Lexema(lexema, tipoToken,fila, columna);
         arregloLexemas.add(lex);
 
     }
