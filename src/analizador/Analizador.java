@@ -64,7 +64,7 @@ public class Analizador {
     }
 
     public void analizarPalabra(String palabraLimpia) {
-        int codigoAscii =39;
+        int codigoAscii = 39;
 
         for (indice = 0; indice < palabraLimpia.length(); indice++) {
             char letra = palabraLimpia.charAt(indice);
@@ -89,18 +89,20 @@ public class Analizador {
                         estado = 3;
                         //si es digito
                     } else if (letra == '/') {
-                        System.out.println("Vino una barra, posible comentario: '" + letra + "', me muevo al estado 5");
+                        System.out.println("Vino una barra, posible comentario: '" + letra + "', me muevo al estado 4");
                         lexema = "" + letra;
                         estado = 4;
                         //si es letra
-                    } else if ((letra == '\n')||(letra == '\t')) {
+                    } else if ((letra == '\n') || (letra == '\t')|| (letra == '\r')) {
                         System.out.println("Vino caracter especial: '" + letra + "', me muevo al estado 7");
                         lexema = "" + letra;
                         estado = 5;
-                    } else if ((letra == '<') || (letra == codigoAscii) || (letra == ':') || (letra == ';') || (letra == '=') || (letra == '+') || (letra == '-')) {
+                    } else if ((letra == '<') || (letra == codigoAscii) || (letra == ':') || (letra == ';') || (letra == '=') || (letra == '+') || (letra == '-')||
+                            (letra == '*') || (letra == '>') || (letra =='(') || (letra == ')')) {
                         System.out.println("simbolo especial");
+                        lexema=""+letra;
                         estado = 6;
-                    } else {
+                    }else {
                         lexema = "" + letra;
                         System.out.println("Encontramos un error Lexico: '" + letra + "', regreso al estado 0");
                         llenarArregloErrores(lexema);
@@ -114,9 +116,9 @@ public class Analizador {
                         lexema += letra;
                         estado = 1;
                     } //Es un estado de aceptacion si vienen solo digitos
-                    else if (Character.isSpaceChar(letra) || letra == '\n') {
+                    else if (Character.isSpaceChar(letra) || letra == '\n' ||(!(Character.isDigit(letra)))) {
                         System.out.println("Lexema encontrado");
-                        lexema += letra;
+                        //lexema += letra;
                         System.out.println(lexema);
                         contadorEnteros++;
                         llenarArregloLexema(lexema, EnumLexema.NUMERO_ENTERO, contadorEnteros);
@@ -127,7 +129,6 @@ public class Analizador {
                     break;
 
                 case 2:
-                    System.out.println("Lexema encontrado: " + lexema);
                     contadorLit++;
                     llenarArregloLexema(lexema, EnumLexema.LITERAL, contadorLit);
                     indice--;
@@ -141,10 +142,16 @@ public class Analizador {
                         System.out.println("Puedo crear un Id: '" + letra + "', voy al estado 7");
                         lexema += letra;
                         estado = 7;
-                    } else {
+                    } else if(Character.isWhitespace(letra)|| !(Character.isLetter(letra))){
+                        llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, indice);
+                        indice --;
+                        lexema ="";
+                        estado =0;
+                    }else{
                         System.out.println("Error Lexico: no vino el caracter que esperabamos ");
                         lexema += letra;
                         llenarArregloErrores(lexema);
+                        indice--;
                         lexema = "";
                         estado = 0;
                     }
@@ -154,94 +161,38 @@ public class Analizador {
                 //si viene un punto, se va a otro estado
                 //aqui se puede generar un error
                 case 4:
-                    
-                    if (letra == '/' ) {
+                    if (letra == '/') {
                         lexema += letra;
                         System.out.println(lexema);
                         estado = 8;
                     } else {
-                        System.out.println(letra);
-                        System.out.println("Error lexico, caracter no valido");
-                        lexema += letra;
-                        System.out.println("error: " + lexema);
-                        llenarArregloErrores(lexema);
-                        //indice--;
-                        lexema = "";
-                        estado = 0;
+                        llenarArregloLexema(lexema, EnumLexema.SIMBOLO, indice);
+                        indice--;
+                        lexema="";
+                        estado=0;
                     }
                     break;
-                /*if ((letra == '_') || (letra == '-') || Character.isDigit(letra) || Character.isLetter(letra)) {
-                        System.out.println("creando un Id: '" + letra + "', sigo en  4");
-                        lexema += letra;
-                        estado = 4;
-                    } else if ((Character.isSpaceChar(letra)) || (letra == '\n')) {
-                        System.out.println("Lexema encontrado");
-                        lexema += letra;
-                        System.out.println(lexema);
-                        verificarPalabraReservada(lexema);
-                        
-                        if (esPalabraReservada == true) {
-                            contadorPalabraReservada++;
-                            llenarArregloLexema(lexema, EnumLexema.PALABRA_RESERVADA, contadorPalabraReservada);
-                        } else {
-                            contadorId++;
-                            llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
-                        }
-                        indice--;
-                        lexema = "";
-                        estado = 0;
-                    }
-                    break;*/
 
                 //Si viene un digito o una letra es un estado de aceptacion, de lo contrario es un error lexico
                 case 5:
-                    
+
                     System.out.println("Lexema encontrado: " + lexema);
                     contadorSigEspe++;
-                    llenarArregloLexema(lexema, EnumLexema.ESPECIAL, contadorSigEspe);
+                    llenarArregloLexema(lexema, EnumLexema.CA_ESPECIAL, contadorSigEspe);
                     indice--;
                     lexema = "";
                     estado = 0;
                     break;
-                /*
-                    if (letra == '/') {
-                        lexema += letra;
-                        System.out.println(lexema);
-                        estado = 6;
-                    } else {
-                        System.out.println(letra);
-                        System.out.println("Error lexico, caracter no valido");
-                        lexema += letra;
-                        System.out.println("error: " + lexema);
-                        llenarArregloErrores(lexema);
-                        //indice--;
-                        lexema = "";
-                        estado = 0;
-                    }
-                    break;*/
-
                 //si viene un digito despues de un punto se pasa al estado 8
                 //si viene un caracter diferente es un error
                 case 6:
                     System.out.println("Lexema encontrado: " + lexema);
                     contadorSimb++;
-                    llenarArregloLexema(lexema, EnumLexema.SIMBOLOS, contadorSimb);
+                    llenarArregloLexema(lexema, EnumLexema.SIMBOLO, contadorSimb);
                     indice--;
                     lexema = "";
                     estado = 0;
                     break;
-                    
-                    /*System.out.println("Lexema encontrado");
-                    lexema += letra;
-                    System.out.println(lexema);
-                    contadorCom++;
-                    llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
-                    indice--;
-                    lexema = "";
-                    estado = 0;
-
-                    break;*/
-
                 //si viene una letra o un digito seguido de una letra es un estado de aceptacion
                 //si viene un caracter distinto es un error
                 case 7:
@@ -249,7 +200,7 @@ public class Analizador {
                         System.out.println("creando un Id: '" + letra + "', sigo en  7");
                         lexema += letra;
                         estado = 7;
-                    } else if ((Character.isSpaceChar(letra)) || (letra == '\n') || (letra == '"')) {
+                    } else if ((Character.isSpaceChar(letra)) || (letra == '\n')||!(letra == '_') || !(letra == '-') || !(Character.isLetterOrDigit(letra))) {
                         System.out.println("Lexema encontrado");
                         //lexema += letra;
                         System.out.println(lexema);
@@ -265,16 +216,13 @@ public class Analizador {
                         indice--;
                         lexema = "";
                         estado = 0;
+                    }else{
+                        System.out.println("Error encontrado");
+                        indice--;
+                        lexema="";
+                        estado=0;
                     }
                     break;
-
-                /*System.out.println("Lexema encontrado: " + lexema);
-                    contadorSigEspe++;
-                    llenarArregloLexema(lexema, EnumLexema.ESPECIAL, contadorSigEspe);
-                    indice--;
-                    lexema = "";
-                    estado = 0;
-                    break;*/
                 //si viene un digito o mas despues de un punto es un estado de aceptacion
                 //si viene un caracter distinto a un digito es un error
                 case 8:
@@ -286,17 +234,7 @@ public class Analizador {
                     indice--;
                     lexema = "";
                     estado = 0;
-
                     break;
-
-                   /* System.out.println("Lexema encontrado: " + lexema);
-                    contadorSimb++;
-                    llenarArregloLexema(lexema, EnumLexema.SIMBOLOS, contadorSimb);
-                    indice--;
-                    lexema = "";
-                    estado = 0;
-                    break;*/
-
                 default:
                     break;
 
