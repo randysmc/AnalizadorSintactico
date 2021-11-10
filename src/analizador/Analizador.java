@@ -122,18 +122,29 @@ public class Analizador {
                         System.out.println(lexema);
                         contadorEnteros++;
                         llenarArregloLexema(lexema, EnumLexema.NUMERO_ENTERO, contadorEnteros);
-                        indice--;
+                        //indice--;
                         lexema = "";
                         estado = 0;
                     }
                     break;
 
                 case 2:
-                    contadorLit++;
-                    llenarArregloLexema(lexema, EnumLexema.LITERAL, contadorLit);
-                    indice--;
-                    lexema = "";
-                    estado = 0;
+                    if(letra != '"' && letra != '\n'){
+                        lexema += letra;
+                        estado =2;
+                    }else if(letra == '\n'){
+                        llenarArregloErrores(lexema);
+                        lexema ="";
+                        estado =0;
+                    }else if(letra == '"'){
+                        lexema += letra;
+                        contadorLit++;
+                        llenarArregloLexema(lexema, EnumLexema.LITERAL, contadorLit);
+                        System.out.println("tamano del arreglo de literal: " + indice);
+                        lexema = "";
+                        //indice--;
+                        estado =0;
+                    }
                     break;
 
                 //tercer estado de aceptacion
@@ -142,12 +153,12 @@ public class Analizador {
                         System.out.println("Puedo crear un Id: '" + letra + "', voy al estado 7");
                         lexema += letra;
                         estado = 7;
-                    } else if(Character.isWhitespace(letra)|| !(Character.isLetter(letra))){
+                    } /*else if(Character.isWhitespace(letra)|| !(Character.isLetter(letra))){
                         llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, indice);
                         indice --;
                         lexema ="";
                         estado =0;
-                    }else{
+                    }*/else{
                         System.out.println("Error Lexico: no vino el caracter que esperabamos ");
                         lexema += letra;
                         llenarArregloErrores(lexema);
@@ -166,8 +177,9 @@ public class Analizador {
                         System.out.println(lexema);
                         estado = 8;
                     } else {
-                        llenarArregloLexema(lexema, EnumLexema.SIMBOLO, indice);
-                        indice--;
+                        contadorSimb++;
+                        llenarArregloLexema(lexema, EnumLexema.SIMBOLO, contadorSimb);
+                        //indice--;
                         lexema="";
                         estado=0;
                     }
@@ -213,7 +225,7 @@ public class Analizador {
                             contadorId++;
                             llenarArregloLexema(lexema, EnumLexema.IDENTIFICADOR, contadorId);
                         }
-                        indice--;
+                        //indice--;
                         lexema = "";
                         estado = 0;
                     }else{
@@ -226,14 +238,22 @@ public class Analizador {
                 //si viene un digito o mas despues de un punto es un estado de aceptacion
                 //si viene un caracter distinto a un digito es un error
                 case 8:
-                    System.out.println("Lexema encontrado");
+                    if(letra != '\n'){
+                        lexema += letra;
+                    }else{
+                        contadorCom++;
+                        llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
+                        lexema="";
+                        estado=0;
+                    }
+                    /*System.out.println("Lexema encontrado");
                     //lexema += letra;
                     System.out.println(lexema);
                     contadorCom++;
                     llenarArregloLexema(lexema, EnumLexema.COMENTARIO, contadorCom);
                     indice--;
                     lexema = "";
-                    estado = 0;
+                    estado = 0;*/
                     break;
                 default:
                     break;
